@@ -74,7 +74,7 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin {
      */
     public function handle($match, $state, $pos, Doku_Handler $handler){
         preg_match('/([rR][tT][aA]?)([0-9]+)/', $match, $matches);
-        if (strcasecmp($matches[1], 'RTA')) {
+        if (strcasecmp($matches[1], 'RTA') == 0) {
             return array(self::ARTICLE, $matches[2]);
         } else {
             return array(self::TICKET, $matches[2]);
