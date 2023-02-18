@@ -18,7 +18,6 @@ if (!defined('DOKU_INC')) die();
  */
 class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin
 {
-
     protected const ARTICLE = 'article';
     protected const TICKET = 'ticket';
 
