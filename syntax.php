@@ -12,15 +12,6 @@ if(!defined('DOKU_INC')) define('DOKU_INC',realpath(dirname(__FILE__).'/../../')
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 
-
-
-//-----------------------------------CONFIGURE RTLINK ROOT HERE---------
-global $rtlink_root_url;
-$rtlink_root_url = "https://rt.example.com/";
-//----------------------------------------------------------------------
-
-
-
 /**
  * All DokuWiki plugins to extend the parser/rendering mechanism
  * need to inherit from this class
@@ -85,19 +76,18 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin {
      * Create output
      */
     public function render($mode, Doku_Renderer $renderer, $data) {
-        global $rtlink_root_url;
-
         if ($mode !== 'xhtml') {
             return true;
         }
 
+        $rt_url = rtrim($this->getConf('rtlink_rt_url'), '/') . '/';
         list($type, $id) = $data;
         switch ($type) {
             case self::ARTICLE:
-                $renderer->doc .= sprintf('<a href="%sArticles/Article/Display.html?id=%s">RT Article #%s</a>', $rtlink_root_url, $id, $id);
+                $renderer->doc .= sprintf('<a href="%sArticles/Article/Display.html?id=%s">RT Article #%s</a>', $rt_url, $id, $id);
                 break;
             case self::TICKET:
-                $renderer->doc .= sprintf('<a href="%sTicket/Display.html?id=%s">RT Ticket #%s</a>', $rtlink_root_url, $id, $id);
+                $renderer->doc .= sprintf('<a href="%sTicket/Display.html?id=%s">RT Ticket #%s</a>', $rt_url, $id, $id);
                 break;
         }
         return true;
