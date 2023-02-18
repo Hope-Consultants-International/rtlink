@@ -22,28 +22,12 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin
     protected const TICKET = 'ticket';
 
     /**
-     * return some info
-     */
-    public function getInfo()
-    {
-        return array(
-            'author' => 'Gregg Berkholtz et al',
-            'email'  => 'info@hopeconsultants.org',
-            'date'   => '2023-02-17',
-            'name'   => 'rtlink Plugin',
-            'desc'   => 'Generates links to RT:: Tickets.',
-            'url'    => 'https://github.com/Hope-Consultants-International/rtlink',
-        );
-    }
-
-    /**
      * What kind of syntax are we?
      */
     public function getType()
     {
         return 'substition';
     }
-
 
     /**
      * Where to sort in?
@@ -60,8 +44,8 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin
      */
     public function connectTo($mode)
     {
-        $this->Lexer->addSpecialPattern('[rR][tT][0-9]+', $mode, substr(get_class($this), 7));
-        $this->Lexer->addSpecialPattern('[rR][tT][aA][0-9]+', $mode, substr(get_class($this), 7));
+        $this->Lexer->addSpecialPattern('\b[rR][tT][0-9]+\b', $mode, substr(get_class($this), 7));
+        $this->Lexer->addSpecialPattern('\b[rR][tT][aA][0-9]+\b', $mode, substr(get_class($this), 7));
     }
 
     /**
@@ -75,7 +59,7 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin
      */
     public function handle($match, $state, $pos, Doku_Handler $handler)
     {
-        preg_match('/([rR][tT][aA]?)([0-9]+)/', $match, $matches);
+        preg_match('/\b([rR][tT][aA]?)([0-9]+)\b/', $match, $matches);
         if (strcasecmp($matches[1], 'RTA') == 0) {
             return array(self::ARTICLE, $matches[2]);
         } else {
