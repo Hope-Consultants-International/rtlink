@@ -1,0 +1,20 @@
+# Editor and temporary files
+*.swp
+*.bak
+*.old
+*~
+*.DS_Store
+*.iml
+.idea/
+.buildpath
+.project
+.settings/
+
+# DokuWiki Extension Manager
+manager.dat
+disabled
+
+# phpunit and tests
+_test/data
+_test/vendor
+
