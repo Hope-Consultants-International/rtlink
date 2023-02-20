@@ -85,19 +85,21 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin
         list($type, $id) = $data;
         switch ($type) {
             case self::ARTICLE:
+                $link = sprintf($this->getConf('rtlink_article_text'), $id);
                 $renderer->doc .= sprintf(
-                    '<a href="%sArticles/Article/Display.html?id=%s">RT Article #%s</a>',
+                    '<a href="%sArticles/Article/Display.html?id=%s">%s</a>',
                     $rt_url,
                     $id,
-                    $id
+                    $link
                 );
                 break;
             case self::TICKET:
+                $link = sprintf($this->getConf('rtlink_ticket_text'), $id);
                 $renderer->doc .= sprintf(
-                    '<a href="%sTicket/Display.html?id=%s">RT Ticket #%s</a>',
+                    '<a href="%sTicket/Display.html?id=%s">%s</a>',
                     $rt_url,
                     $id,
-                    $id
+                    $link
                 );
                 break;
         }
