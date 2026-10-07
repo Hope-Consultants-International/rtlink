@@ -12,10 +12,9 @@ the RequestTracker ticket number. This will then be replaced with a link, e.g.
 
 `RT12345` will be replaced with [RT Ticket #12345](https://helpdesk.example.com/Ticket/Display.html?id=12345)
 
-Same principal applies to RT Articles, using `RTA<ArticleNumber>`.
+Same principle applies to RT Articles, using `RTA<ArticleNumber>`.
 
-`RTA123` will be replaces with [RT Article #123](https://helpdesk.example.com/Articles/Article/Display.html?id=12345)
-
+`RTA123` will be replaced with [RT Article #123](https://helpdesk.example.com/Articles/Article/Display.html?id=123)
 
 ## Configuration
 

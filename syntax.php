@@ -61,48 +61,43 @@ class syntax_plugin_rtlink extends DokuWiki_Syntax_Plugin
     {
         preg_match('/\b([rR][tT][aA]?)([0-9]+)\b/', $match, $matches);
         if (strcasecmp($matches[1], 'RTA') == 0) {
-            return array(self::ARTICLE, $matches[2]);
+            return array(self::ARTICLE, $matches[2], $match);
         } else {
-            return array(self::TICKET, $matches[2]);
+            return array(self::TICKET, $matches[2], $match);
         }
     }
 
     /**
      * Create output
      *
-     * @param string $format output format being rendered
+     * @param string $mode output format being rendered
      * @param Doku_Renderer $renderer the current renderer object
      * @param array $data data created by handler()
      * @return boolean rendered correctly?
      */
     public function render($mode, Doku_Renderer $renderer, $data)
     {
+        list($type, $id, $match) = $data;
+
+        // other renderers (text, odt, ...) get the plain text instead of nothing
         if ($mode !== 'xhtml') {
+            $renderer->cdata($match);
             return true;
         }
 
         $rt_url = rtrim($this->getConf('rtlink_rt_url'), '/') . '/';
-        list($type, $id) = $data;
         switch ($type) {
             case self::ARTICLE:
-                $link = sprintf($this->getConf('rtlink_article_text'), $id);
-                $renderer->doc .= sprintf(
-                    '<a href="%sArticles/Article/Display.html?id=%s">%s</a>',
-                    $rt_url,
-                    $id,
-                    $link
-                );
+                $url = $rt_url . 'Articles/Article/Display.html?id=' . $id;
+                $text = $this->getConf('rtlink_article_text');
                 break;
-            case self::TICKET:
-                $link = sprintf($this->getConf('rtlink_ticket_text'), $id);
-                $renderer->doc .= sprintf(
-                    '<a href="%sTicket/Display.html?id=%s">%s</a>',
-                    $rt_url,
-                    $id,
-                    $link
-                );
-                break;
+            default:
+                $url = $rt_url . 'Ticket/Display.html?id=' . $id;
+                $text = $this->getConf('rtlink_ticket_text');
         }
+
+        // externallink() escapes URL and title and applies the configured link settings
+        $renderer->externallink($url, str_replace('%s', $id, $text));
         return true;
     }
 }
